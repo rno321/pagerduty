@@ -18,6 +18,7 @@ export default function Home() {
     <div style={styles.container}>
       <div style={styles.heroSection}>
         <h1 style={styles.heading}>Incident Dashboard</h1>
+        <p style={styles.subheading}>Monitor and manage your incidents with ease.</p>
       </div>
       <div style={styles.grid}>
         {incidents.map((incident) => (
@@ -39,45 +40,43 @@ export default function Home() {
 
 const styles = {
   container: {
-    padding: '20px',
     fontFamily: 'Arial, sans-serif',
-    backgroundColor: '#f4f4f4',
+    backgroundColor: '#f9f9f9',
+    color: '#333',
     minHeight: '100vh',
-    position: 'relative',
   },
   heroSection: {
-    backgroundColor: '#0070f3',
-    padding: '50px 20px',
-    borderRadius: '0 0 50% 50%',
+    background: 'linear-gradient(to right, #003b72, #00b36b)',
+    padding: '60px 20px',
     textAlign: 'center',
     color: '#fff',
-    position: 'relative',
     marginBottom: '40px',
   },
   heading: {
-    fontSize: '3rem',
-    marginBottom: '20px',
-    position: 'relative',
-    zIndex: 2,
+    fontSize: '2.5rem',
+    margin: '0 0 10px',
+  },
+  subheading: {
+    fontSize: '1.2rem',
+    margin: 0,
   },
   grid: {
     display: 'grid',
     gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
     gap: '20px',
+    padding: '20px',
   },
   card: {
     backgroundColor: '#fff',
     padding: '20px',
-    borderRadius: '16px',
-    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
-    transition: 'transform 0.2s',
-    position: 'relative',
-    overflow: 'hidden',
+    borderRadius: '8px',
+    boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)',
+    border: '1px solid #ddd',
   },
   cardTitle: {
-    fontSize: '1.5rem',
+    fontSize: '1.4rem',
     marginBottom: '10px',
-    color: '#0070f3',
+    color: '#003b72',
   },
   info: {
     marginBottom: '10px',
