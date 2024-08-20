@@ -72,8 +72,8 @@ jobs:
         if: github.event_name != 'pull_request'
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          OVH_USER: your-ovh-username
-          OVH_HOST: your-ovh-instance-ip
+          OVH_USER: ubuntu
+          OVH_HOST: 148.113.138.137
           DOCKER_IMAGE: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.tags }}
         run: |
           echo "$SSH_PRIVATE_KEY" > private_key.pem
