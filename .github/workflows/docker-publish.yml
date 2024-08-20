@@ -81,9 +81,9 @@ jobs:
 
           ssh -i private_key.pem -o StrictHostKeyChecking=no $OVH_USER@$OVH_HOST << EOF
             docker pull $DOCKER_IMAGE
-            docker stop your-container-name || true
-            docker rm your-container-name || true
-            docker run -d --name your-container-name -p 80:80 $DOCKER_IMAGE
+            docker stop mongo-container || true
+            docker rm mongo-container || true
+            docker run -d --name mongo-container -p 80:3000 $DOCKER_IMAGE
           EOF
 
           rm private_key.pem
