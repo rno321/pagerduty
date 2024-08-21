@@ -59,7 +59,13 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-
+          build-args: |
+            MONGODB_DB=${{ secrets.pagerduty }}
+            MONGODB_USER=${{ secrets.MONGODB_USER }}
+            MONGODB_PWD=${{ secrets.MONGODB_PWD }}
+            MONGODB_HOST=${{ secrets.MONGODB_HOST }}
+            MONGODB_PORT=${{ secrets.MONGODB_PORT }}
+            
       - name: Sign the published Docker image
         if: ${{ github.event_name != 'pull_request' }}
         env:
