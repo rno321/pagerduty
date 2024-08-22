@@ -59,13 +59,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          build-args: |
-            MONGODB_DB=${{ secrets.pagerduty }}
-            MONGODB_USER=${{ secrets.MONGODB_USER }}
-            MONGODB_PWD=${{ secrets.MONGODB_PWD }}
-            MONGODB_HOST=${{ secrets.MONGODB_HOST }}
-            MONGODB_PORT=${{ secrets.MONGODB_PORT }}
-            
+          
       - name: Sign the published Docker image
         if: ${{ github.event_name != 'pull_request' }}
         env:
@@ -81,6 +75,11 @@ jobs:
           OVH_USER: ubuntu
           OVH_HOST: 148.113.138.137
           DOCKER_IMAGE: ${{ steps.meta.outputs.tags }}
+          MONGODB_DB: ${{ secrets.pagerduty }}
+          MONGODB_USER: ${{ secrets.MONGODB_USER }}
+          MONGODB_PWD: ${{ secrets.MONGODB_PWD }}
+          MONGODB_HOST: ${{ secrets.MONGODB_HOST }}
+          MONGODB_PORT=: ${{ secrets.MONGODB_PORT }}
         run: |
           echo $DOCKER_IMAGE
           echo "$SSH_PRIVATE_KEY" > private_key.pem
@@ -90,7 +89,12 @@ jobs:
             docker pull $DOCKER_IMAGE
             docker stop pager-duty || true
             docker rm pager-duty || true
-            sudo docker run -d --name pager-duty -p 80:3000 $DOCKER_IMAGE
+            sudo docker run -d --name pager-duty -p 80:3000 -env MONGODB_DB=${{ secrets.pagerduty }} \
+            MONGODB_USER=${{ secrets.MONGODB_USER }} \
+            MONGODB_PWD=${{ secrets.MONGODB_PWD }} \
+            MONGODB_HOST=${{ secrets.MONGODB_HOST }} \
+            MONGODB_PORT=${{ secrets.MONGODB_PORT }} \
+            $DOCKER_IMAGE
           EOF
 
           rm private_key.pem
