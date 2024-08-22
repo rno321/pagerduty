@@ -80,17 +80,17 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           OVH_USER: ubuntu
           OVH_HOST: 148.113.138.137
-          DOCKER_IMAGE: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.tags }}
+          DOCKER_IMAGE: ${{ steps.meta.outputs.tags }}
         run: |
           echo $DOCKER_IMAGE
           echo "$SSH_PRIVATE_KEY" > private_key.pem
           chmod 600 private_key.pem
 
-          ssh -i private_key.pem -o StrictHostKeyChecking=no $OVH_USER@$OVH_HOST << 'EOF'
+          ssh -i private_key.pem -o StrictHostKeyChecking=no $OVH_USER@$OVH_HOST << EOF
             docker pull $DOCKER_IMAGE
             docker stop pager-duty || true
             docker rm pager-duty || true
             sudo docker run -d --name pager-duty -p 80:3000 $DOCKER_IMAGE
-          'EOF'
+          EOF
 
           rm private_key.pem
