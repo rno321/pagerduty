@@ -72,14 +72,15 @@ jobs:
         if: github.event_name != 'pull_request'
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          OVH_USER: ubuntu
-          OVH_HOST: 148.113.138.137
+          OVH_USER: ${{ secrets.OVH_USER }}
+          OVH_HOST: ${{ secrets.OVH_HOST }}
           DOCKER_IMAGE: ${{ steps.meta.outputs.tags }}
           MONGODB_DB: ${{ secrets.MONGODB_DB }}
           MONGODB_USER: ${{ secrets.MONGODB_USER }}
           MONGODB_PWD: ${{ secrets.MONGODB_PWD }}
           MONGODB_HOST: ${{ secrets.MONGODB_HOST }}
           MONGODB_PORT: ${{ secrets.MONGODB_PORT }}
+          CONTAINER_NAME: ${{ secrets.CONTAINER_NAME }}
         run: |
           echo $DOCKER_IMAGE
           echo "$SSH_PRIVATE_KEY" > private_key.pem
@@ -87,9 +88,9 @@ jobs:
       
           ssh -i private_key.pem -o StrictHostKeyChecking=no $OVH_USER@$OVH_HOST << EOF
             docker pull $DOCKER_IMAGE
-            docker stop pager-duty || true
-            docker rm pager-duty || true
-            sudo docker run -d --name pager-duty -p 80:3000 \
+            docker stop $CONTAINER_NAME || true
+            docker rm $CONTAINER_NAME || true
+            sudo docker run -d --name $CONTAINER_NAME -p 80:3000 \
             -e MONGODB_DB="$MONGODB_DB" \
             -e MONGODB_USER="$MONGODB_USER" \
             -e MONGODB_PWD="$MONGODB_PWD" \
