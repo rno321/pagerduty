@@ -75,7 +75,7 @@ jobs:
           OVH_USER: ubuntu
           OVH_HOST: 148.113.138.137
           DOCKER_IMAGE: ${{ steps.meta.outputs.tags }}
-          MONGODB_DB: ${{ secrets.pagerduty }}
+          MONGODB_DB: ${{ secrets.MONGODB_DB }}
           MONGODB_USER: ${{ secrets.MONGODB_USER }}
           MONGODB_PWD: ${{ secrets.MONGODB_PWD }}
           MONGODB_HOST: ${{ secrets.MONGODB_HOST }}
