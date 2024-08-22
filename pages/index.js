@@ -2,13 +2,30 @@ import { useEffect, useState } from 'react';
 
 export default function Home() {
   const [incidents, setIncidents] = useState([]);
+  const [userId, setUserId] = useState('');  // State for storing user ID
+  const [filteredIncidents, setFilteredIncidents] = useState([]);  // State for storing filtered incidents
 
   useEffect(() => {
     fetch('/api/incidents')  // Assuming your API endpoint returns an array of incidents
       .then((res) => res.json())
-      .then((data) => setIncidents(data))
+      .then((data) => {
+        setIncidents(data);
+        setFilteredIncidents(data);  // Initialize filtered incidents with all incidents
+      })
       .catch((error) => console.error('Error fetching incidents:', error));
   }, []);
+
+  // Filter incidents when the userId changes
+  useEffect(() => {
+    if (userId) {
+      const filtered = incidents.filter((incident) =>
+        incident.assigned_to.some((assignee) => assignee.id === userId)
+      );
+      setFilteredIncidents(filtered);
+    } else {
+      setFilteredIncidents(incidents);  // Show all incidents if no userId is entered
+    }
+  }, [userId, incidents]);
 
   if (incidents.length === 0) {
     return <div>Loading...</div>;
@@ -20,8 +37,17 @@ export default function Home() {
         <h1 style={styles.heading}>Incident Dashboard</h1>
         <p style={styles.subheading}>Monitor and manage your incidents with ease.</p>
       </div>
+      <div style={styles.filterSection}>
+        <input
+          type="text"
+          placeholder="Enter User ID"
+          value={userId}
+          onChange={(e) => setUserId(e.target.value)}
+          style={styles.input}
+        />
+      </div>
       <div style={styles.grid}>
-        {incidents.map((incident) => (
+        {filteredIncidents.map((incident) => (
           <div key={incident.id} style={styles.card}>
             <h2 style={styles.cardTitle}>Incident #{incident.incident_number}</h2>
             <p style={styles.info}><strong>Summary:</strong> {incident.summary}</p>
@@ -59,6 +85,17 @@ const styles = {
   subheading: {
     fontSize: '1.2rem',
     margin: 0,
+  },
+  filterSection: {
+    textAlign: 'center',
+    marginBottom: '20px',
+  },
+  input: {
+    padding: '10px',
+    fontSize: '1rem',
+    borderRadius: '5px',
+    border: '1px solid #ddd',
+    width: '300px',
   },
   grid: {
     display: 'grid',
