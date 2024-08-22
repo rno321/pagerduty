@@ -82,6 +82,7 @@ jobs:
           OVH_HOST: 148.113.138.137
           DOCKER_IMAGE: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ steps.meta.outputs.tags }}
         run: |
+          echo $DOCKER_IMAGE
           echo "$SSH_PRIVATE_KEY" > private_key.pem
           chmod 600 private_key.pem
 
