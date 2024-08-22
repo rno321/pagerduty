@@ -90,6 +90,6 @@ jobs:
             docker stop pager-duty || true
             docker rm pager-duty || true
             sudo docker run -d --name pager-duty -p 80:3000 $DOCKER_IMAGE
-          EOF
+          'EOF'
 
           rm private_key.pem
