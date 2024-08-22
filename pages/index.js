@@ -55,7 +55,7 @@ export default function Home() {
             <p style={styles.info}><strong>Created At:</strong> {new Date(incident.created_at).toLocaleString()}</p>
             <p style={styles.info}><strong>Urgency:</strong> <span style={getUrgencyStyle(incident.urgency)}>{incident.urgency}</span></p>
             <p style={styles.info}><strong>Service:</strong> {incident.service.summary}</p>
-            <p style={styles.info}><strong>Assigned To:</strong> {incident.assigned_to.map((assignee) => assignee.summary).join(', ')}</p>
+            <p style={styles.info}><strong>Assigned To:</strong> {incident.assigned_to.map((assignee) => `${assignee.summary} (ID: ${assignee.id})`).join(', ')}</p>
             <p style={styles.info}><strong>Priority:</strong> {incident.priority.summary}</p>
           </div>
         ))}
@@ -99,7 +99,7 @@ const styles = {
   },
   grid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+    gridTemplateColumns: '1fr',  // Single column layout
     gap: '20px',
     padding: '20px',
   },
