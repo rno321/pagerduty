@@ -85,7 +85,7 @@ jobs:
           echo "$SSH_PRIVATE_KEY" > private_key.pem
           chmod 600 private_key.pem
 
-          ssh -i private_key.pem -o StrictHostKeyChecking=no $OVH_USER@$OVH_HOST << EOF
+          ssh -i private_key.pem -o StrictHostKeyChecking=no $OVH_USER@$OVH_HOST << 'EOF'
             docker pull $DOCKER_IMAGE
             docker stop pager-duty || true
             docker rm pager-duty || true
