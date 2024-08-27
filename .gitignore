@@ -35,3 +35,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .vscode/settings.json
+data.json
+requests.sh
+response.json
+trace.txt
+requests.sh
+requests.sh
