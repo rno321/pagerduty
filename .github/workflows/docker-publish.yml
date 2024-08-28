@@ -1,11 +1,11 @@
 name: Docker
 
 on:
-  schedule:
-    - cron: '18 17 * * *'
+  # schedule:
+  #   - cron: '18 17 * * *'
   push:
     branches: [ "main" ]
-    tags: [ 'v*.*.*' ]
+    # tags: [ 'v*.*.*' ]
   pull_request:
     branches: [ "main" ]
 
