@@ -74,7 +74,7 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           OVH_USER: ${{ secrets.OVH_USER }}
           OVH_HOST: ${{ secrets.OVH_HOST }}
-          DOCKER_IMAGE: ${{ steps.meta.outputs.tags }}
+          DOCKER_IMAGE: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:main
           MONGODB_DB: ${{ secrets.MONGODB_DB }}
           MONGODB_USER: ${{ secrets.MONGODB_USER }}
           MONGODB_PWD: ${{ secrets.MONGODB_PWD }}
