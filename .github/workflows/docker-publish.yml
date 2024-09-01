@@ -85,8 +85,9 @@ jobs:
           echo $DOCKER_IMAGE
           echo "$SSH_PRIVATE_KEY" > private_key.pem
           chmod 600 private_key.pem
-      
+          
           ssh -i private_key.pem -o StrictHostKeyChecking=no $OVH_USER@$OVH_HOST << EOF
+            docker login ghcr.io -u ${{ github.actor }} -p ${{ secrets.GHCR_PAT }}
             docker pull $DOCKER_IMAGE
             docker stop $CONTAINER_NAME || true
             docker rm $CONTAINER_NAME || true
@@ -97,6 +98,8 @@ jobs:
             -e MONGODB_HOST="$MONGODB_HOST" \
             -e MONGODB_PORT="$MONGODB_PORT" \
             $DOCKER_IMAGE
+            docker logout ghcr.io
+            rm -f /home/ubuntu/snap/docker/2915/.docker/config.json
           EOF
       
           rm private_key.pem
