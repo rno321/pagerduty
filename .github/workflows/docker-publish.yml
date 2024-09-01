@@ -72,6 +72,7 @@ jobs:
         if: github.event_name != 'pull_request'
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          GHCR_PAT: ${{secrets.ghcr_pat}}
           OVH_USER: ${{ secrets.OVH_USER }}
           OVH_HOST: ${{ secrets.OVH_HOST }}
           DOCKER_IMAGE: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:main
@@ -87,7 +88,7 @@ jobs:
           chmod 600 private_key.pem
           
           ssh -i private_key.pem -o StrictHostKeyChecking=no $OVH_USER@$OVH_HOST << EOF
-            docker login ghcr.io -u ${{ github.actor }} -p ${{ secrets.GHCR_PAT }}
+            docker login ghcr.io -u ${{ github.actor }} -p $GHCR_PAT
             docker pull $DOCKER_IMAGE
             docker stop $CONTAINER_NAME || true
             docker rm $CONTAINER_NAME || true
