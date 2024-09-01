@@ -10,7 +10,7 @@ export default async function handler(req, res) {
         if (req.method === 'GET') {
             // Handle GET request - fetch incidents by userId
             const incidents = await db.collection('incidents').find({ 'assigned_to.id': userId }).toArray();
-            console.log(incidents);
+            console.log("Sending incidents list.");
 
             res.status(200).json(incidents);
         } else {

@@ -1,5 +1,7 @@
 curl -X POST localhost:3000/api/incidents -H "Content-Type: application/json" -d @data.json
 
+curl -X POST http://148.113.138.137/api/incidents/ -H "Content-Type: application/json" -d @data.json
+
 curl localhost:3000/api/incidents
 
 curl localhost:3000/api/incidents/PLM1TEA
