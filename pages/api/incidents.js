@@ -3,7 +3,7 @@ import clientPromise from '../../lib/mongodb';
 export default async function handler(req, res) {
     try {
         const client = await clientPromise;
-        const db = client.db('pagerduty');
+        const db = client.db(process.env.MONGODB_DB);
 
         if (req.method === 'GET') {
             // Handle GET request - fetch incidents
@@ -14,14 +14,14 @@ export default async function handler(req, res) {
         } else if (req.method === 'POST') {
             // Handle POST request - add new incident
             const newIncident = req.body;
-            console.log("logging post")
 
-            console.log(newIncident)
             // Basic validation (you can extend this as needed)
             if (!newIncident || !newIncident.id || !newIncident.summary) {
                 res.status(400).json({ error: 'Invalid data' });
                 return;
             }
+            console.log(`paging user id: ${newIncident.assigned_to[0].id}`)
+            console.log(`incident summary: ${newIncident.summary}`)
 
             const result = await db.collection('incidents').insertOne(newIncident);
 
