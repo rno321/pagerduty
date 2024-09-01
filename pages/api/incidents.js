@@ -8,7 +8,6 @@ export default async function handler(req, res) {
         if (req.method === 'GET') {
             // Handle GET request - fetch incidents
             const incidents = await db.collection('incidents').find({}).toArray();
-            console.log(incidents)
 
             res.status(200).json(incidents);
         } else if (req.method === 'POST') {
